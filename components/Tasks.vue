@@ -5,6 +5,17 @@
     </div>
     <div class="relative flex justify-center px-3">
       <span class="isolate inline-flex space-x-2 rounded-md shadow-sm">
+        <select class="select max-w-xs" v-model="modelGroup">
+          <option disabled selected>OpenAI</option>
+          <option v-for="modelGroup in modelGroups" :value="modelGroup.id">
+            {{ modelGroup.name }}
+          </option>
+        </select>
+        <select class="select w-full max-w-xs" v-model="model">
+          <option v-for="model in models" :value="model.id">
+            {{ model.name }}
+          </option>
+        </select>
         <button class="btn tooltip" data-tip="Save">
           <Icon name="material-symbols:save" size="20" />
         </button>
@@ -15,4 +26,9 @@
     </div>
   </div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { models, modelGroups } from "@/conf/conf";
+
+const modelGroup = ref(1);
+const model = ref(1);
+</script>

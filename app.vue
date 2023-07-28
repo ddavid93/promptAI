@@ -7,11 +7,12 @@
         class="absolute inset-0 -z-10 h-full w-full object-cover"
       />
       <div class="mx-auto max-w-4xl py-32">
-        <Header class="py-10"/>
+        <Header class="py-10" />
         <Container />
       </div>
     </div>
   </div>
+  <Footer />
 </template>
 
 <script setup lang="ts"></script>
