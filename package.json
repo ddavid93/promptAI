@@ -17,6 +17,7 @@
     "prettier": "^3.0.0"
   },
   "dependencies": {
-    "nuxt-icon": "^0.4.2"
+    "nuxt-icon": "^0.4.2",
+    "openai": "^3.3.0"
   }
 }

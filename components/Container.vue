@@ -75,12 +75,15 @@ const promptPreview = computed(() => {
   }, prompt.value);
 });
 
-function run() {
-  // Fake
+async function run() {
   loading.value = true;
-  setTimeout(() => {
-    loading.value = false;
-  }, 4000);
+  const { error, data } = await useFetch("/api/openai", {
+    body: {
+      prompt: prompt.value,
+    },
+    method: "post",
+  });
+  loading.value = false;
 }
 </script>
 
