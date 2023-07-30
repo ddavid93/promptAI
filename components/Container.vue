@@ -12,22 +12,26 @@
         <div>
           <h4>Inputs</h4>
           <template v-if="placeholders?.length">
-            <div
-              v-for="placeholder in placeholders"
-              :key="placeholder"
-              class="badge badge-primary"
-            >
-              {{ placeholder }}
+            <div class="space-x-2">
+              <span
+                v-for="placeholder in placeholders"
+                :key="placeholder.key"
+                class="badge badge-primary"
+              >
+                {{ placeholder.key }}
+              </span>
             </div>
           </template>
         </div>
 
         <Empty v-if="!prompt" message="No inputs" />
+        <template v-else></template>
         <input
-          v-else
+          v-for="input in placeholders"
           type="text"
-          v-model="inputModel"
-          placeholder="Type here"
+          :key="input.key"
+          v-model="input.value"
+          placeholder="Type here..."
           class="input input-bordered input-primary w-full max-w-xs"
         />
       </div>
@@ -41,18 +45,30 @@
 </template>
 
 <script setup lang="ts">
-const inputModel = ref("Banana");
 const prompt = ref("");
 
 const placeholders = computed(() => {
   const matches = prompt.value.match(/{{\s*([^{}]+)\s*}}/g);
-  return matches?.map((match) => match.replace(/{{|}}/g, ""));
+  return matches?.map((match) => ({
+    key: match.replace(/{{|}}/g, "").trim(),
+    value: "FakeValue",
+  }));
 });
 
 const promptPreview = computed(() => {
   const matches = prompt.value.match(/{{\s*([^{}]+)\s*}}/g);
   if (!matches?.length) return prompt.value;
-  // Temporally only take the first position (limited to one placeholder)
-  return prompt.value.replace(matches[0], inputModel.value);
+  const textProcessed = matches?.map((match) =>
+    match.replace(/{{|}}/g, "").trim(),
+  );
+  return textProcessed.reduce((result, current) => {
+    const currentPlaceholder = placeholders.value?.find(
+      ({ key }) => key === current,
+    );
+    return result.replace(
+      new RegExp(`{{\\s*${current}\\s*}}`, "g"),
+      currentPlaceholder?.value || "",
+    );
+  }, prompt.value);
 });
 </script>
