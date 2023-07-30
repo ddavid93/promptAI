@@ -8,7 +8,9 @@
       />
       <div class="mx-auto max-w-4xl py-32">
         <Header class="py-10" />
-        <Container />
+        <ClientOnly>
+          <Container />
+        </ClientOnly>
       </div>
     </div>
   </div>

@@ -28,8 +28,8 @@
         <Empty v-if="!prompt" message="No inputs" />
         <template v-else>
           <input
-            v-for="(input, index) in placeholders"
             type="text"
+            v-for="(input, index) in placeholders"
             :key="placeholders[index].value"
             v-model="input.value"
             placeholder="Type here..."
