@@ -5,6 +5,8 @@
   <div
     contenteditable="true"
     ref="promptRef"
+    @focusin="isFocus = true"
+    @focusout="isFocus = false"
     @input="
       promptExport = $event.target.innerHTML;
       handleInput($event);
@@ -29,8 +31,9 @@ const prompt = ref(`<div class="p-2 pb-4">
           {{ fruit }}
           </p>
 </div>`);
-
+const originalPrompt = ref(prompt.value);
 const promptExport = ref(prompt.value);
+const isFocus = ref(false);
 
 onMounted(() => handleInput());
 
@@ -43,4 +46,17 @@ function handleInput(e?: Record<any, HTMLInputElement> | null) {
 
   emits("update:modelValue", promptExport.value);
 }
+
+watch(
+  isFocus,
+  (val) => {
+    prompt.value = originalPrompt.value.replaceAll(
+      /\{\{\s*([^{}]+)\s*\}\}/g,
+      val
+        ? "<span>{{ $1 }}</span>"
+        : '<span class="badge badge-primary">$1</span>',
+    );
+  },
+  { immediate: true },
+);
 </script>
