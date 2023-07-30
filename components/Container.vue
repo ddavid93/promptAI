@@ -26,15 +26,16 @@
         </div>
 
         <Empty v-if="!prompt" message="No inputs" />
-        <template v-else></template>
-        <input
-          v-for="input in placeholders"
-          type="text"
-          :key="input.key"
-          v-model="input.value"
-          placeholder="Type here..."
-          class="input input-bordered input-primary w-full max-w-xs"
-        />
+        <template v-else>
+          <input
+            v-for="(input, index) in placeholders"
+            type="text"
+            :key="placeholders[index].value"
+            v-model="input.value"
+            placeholder="Type here..."
+            class="input input-bordered input-primary w-full max-w-xs"
+          />
+        </template>
       </div>
       <div class="space-y-4">
         <h3>Preview</h3>
@@ -75,6 +76,7 @@ const promptPreview = computed(() => {
 });
 
 function run() {
+  // Fake
   loading.value = true;
   setTimeout(() => {
     loading.value = false;

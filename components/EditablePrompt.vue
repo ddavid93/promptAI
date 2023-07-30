@@ -6,8 +6,8 @@
     contenteditable="true"
     ref="promptRef"
     @input="
-      handleInput($event);
       promptExport = $event.target.innerHTML;
+      handleInput($event);
     "
     v-html="prompt"
     class="textarea textarea-bordered h-auto resize-none"
