@@ -19,7 +19,7 @@
         <button class="btn tooltip" data-tip="Save">
           <Icon name="material-symbols:save" size="20" />
         </button>
-        <button class="btn tooltip" data-tip="Run">
+        <button @click="$emit('run')" class="btn tooltip" data-tip="Run">
           <Icon name="material-symbols:play-arrow-rounded" size="20" />
         </button>
       </span>
@@ -29,6 +29,7 @@
 <script setup lang="ts">
 import { models, modelGroups } from "@/conf/conf";
 
+defineEmits(["run"]);
 const modelGroup = ref(1);
 const model = ref(1);
 </script>
