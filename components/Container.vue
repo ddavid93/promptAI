@@ -9,32 +9,26 @@
       </div>
     </div>
     <div class="grid grid-cols-2 gap-x-10 px-4 py-5 sm:p-6">
-      <div class="space-y-4">
-        <div>
-          <h4>Inputs</h4>
-          <template v-if="placeholders?.length">
-            <div class="space-x-2">
-              <span
-                v-for="placeholder in placeholders"
-                :key="placeholder.key"
-                class="badge badge-primary"
-              >
-                {{ placeholder.key }}
-              </span>
-            </div>
-          </template>
-        </div>
-
+      <div class="grid gap-y-3">
+        <h4>Inputs</h4>
         <Empty v-if="!prompt" message="No inputs" />
         <template v-else>
-          <input
-            type="text"
+          <template
             v-for="(input, index) in placeholders"
             :key="placeholders[index].value"
-            v-model="input.value"
-            placeholder="Type here..."
-            class="input input-bordered input-primary w-full max-w-xs"
-          />
+          >
+            <div class="inline-grid space-y-2">
+              <span class="badge badge-primary">
+                {{ input.key }}
+              </span>
+              <input
+                type="text"
+                v-model="input.value"
+                placeholder="Type here..."
+                class="input input-bordered input-primary w-full max-w-xs"
+              />
+            </div>
+          </template>
         </template>
       </div>
       <div class="space-y-4">

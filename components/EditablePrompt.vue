@@ -31,7 +31,7 @@ const prompt = ref(`<div class="p-2 pb-4">
           {{ fruit }}
           </p>
 </div>`);
-const originalPrompt = ref(prompt.value);
+const originalPrompt = computed(() => prompt.value);
 const promptExport = ref(prompt.value);
 const isFocus = ref(false);
 
