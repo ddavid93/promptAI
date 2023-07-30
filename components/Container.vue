@@ -4,35 +4,36 @@
   >
     <div class="px-4 py-5 sm:px-6">
       <div class="form-control">
-        <label class="label">
-          <span class="label-text">Prompt</span>
-        </label>
-        <textarea
-          v-model="prompt"
-          class="textarea textarea-bordered h-24 resize-none"
-          placeholder="Bio"
-        ></textarea>
+        <EditablePrompt v-model="prompt" />
       </div>
     </div>
     <div class="grid grid-cols-2 gap-x-10 px-4 py-5 sm:p-6">
       <div class="space-y-4">
-        <h4>Inputs</h4>
-        <Empty message="No inputs" />
-        <div class="alert">
-          <Icon
-            name="material-symbols:info-outline-rounded"
-            class="text-blue-500"
-            size="20"
-          />
-          <span v-pre
-            >You can add inputs to your prompt using placeholders:
-            {{ input }}</span
-          >
+        <div>
+          <h4>Inputs</h4>
+          <template v-if="placeholders?.length">
+            <div
+              v-for="placeholder in placeholders"
+              :key="placeholder"
+              class="badge badge-primary"
+            >
+              {{ placeholder }}
+            </div>
+          </template>
         </div>
+
+        <Empty v-if="!prompt" message="No inputs" />
+        <input
+          v-else
+          type="text"
+          v-model="inputModel"
+          placeholder="Type here"
+          class="input input-bordered input-primary w-full max-w-xs"
+        />
       </div>
       <div class="space-y-4">
         <h3>Preview</h3>
-        <Preview :preview="prompt" />
+        <div v-html="promptPreview"></div>
       </div>
     </div>
   </div>
@@ -40,5 +41,18 @@
 </template>
 
 <script setup lang="ts">
+const inputModel = ref("Banana");
 const prompt = ref("");
+
+const placeholders = computed(() => {
+  const matches = prompt.value.match(/{{\s*([^{}]+)\s*}}/g);
+  return matches?.map((match) => match.replace(/{{|}}/g, ""));
+});
+
+const promptPreview = computed(() => {
+  const matches = prompt.value.match(/{{\s*([^{}]+)\s*}}/g);
+  if (!matches?.length) return prompt.value;
+  // Temporally only take the first position (limited to one placeholder)
+  return prompt.value.replace(matches[0], inputModel.value);
+});
 </script>
